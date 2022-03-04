@@ -30,6 +30,7 @@ Pull & run frontend (Port 4500)
 
 # Create network
 cd devtool-community-network and download fabric img:
+```
 - Hyperledger/fabric-peer
 - Hyperledger/fabric-ca
 - Hyperledger/fabric-ccenv
@@ -37,6 +38,7 @@ cd devtool-community-network and download fabric img:
 - Hyperledger/fabric-couchdb
 - Hyperledger/fabric-kafka
 - Hyperledger/fabric-zookeeper
+```
 
 Cleaning orphan container.
 Parameter config is created in `/scripts/env.sh` and `.env` (181)
