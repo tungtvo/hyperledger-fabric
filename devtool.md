@@ -44,7 +44,8 @@ Cleaning orphan container.
 Parameter config is created in `/scripts/env.sh` and `.env` (181)
 Run cryptogen in docker-compose-generateCert to create CA (212)
 Create Organization artifact in `artifact/cripto-config/peerOrganizations/` (224)
-Download devtool-admin image
+Download devtool-admin image in `docker-compose-network.yaml` and run network with Org1,Org2, orderer... with params have been set on `.env`
+
 
 ---
 # Error
