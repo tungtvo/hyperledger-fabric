@@ -49,10 +49,18 @@ Download devtool-admin image in `docker-compose-network.yaml` and run network wi
 
 ---
 # Error
-```
+
 1. Cannot connect to mysql
-Create user root/Akachain manually on mysql server
-2. 
+`Create user root/Akachain manually on mysql server`
+2. npm install devtool-backend: fatal error: zlib.h: No such file or directory
+`sudo apt-get install libz-dev`
+3. Run `node server.js`: ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
+`ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'Akachain';`
+4. Create network error:
+[ERROR] network - register org 1 failed:  { Error: connect ETIMEDOUT 0.0.12.56:80
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1107:14)
+```
+loi proxy, chua fix duoc
 ```
 
 
