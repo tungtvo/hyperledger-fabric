@@ -59,9 +59,9 @@ Download devtool-admin image in `docker-compose-network.yaml` and run network wi
 4. Create network error:
 [ERROR] network - register org 1 failed:  { Error: connect ETIMEDOUT 0.0.12.56:80
     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1107:14)
-```
-loi proxy, chua fix duoc
-```
-
+`loi proxy, chua fix duoc`
+5. docker-compose: command not found
+Hoặc: PermissionError: [Erno 13] Permission denied: './.env'
+`Install docker-compose (do not install snap version)`
 
 
