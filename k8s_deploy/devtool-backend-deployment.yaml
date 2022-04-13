@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devtool-ui
+spec:
+  selector:
+    matchLabels:
+      app: devtool-ui
+  containers:
+  - name: mysql-server
+    image: mysql-server:1.0

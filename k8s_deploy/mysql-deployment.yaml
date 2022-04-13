@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-server
+spec:
+  selector:
+    matchLabels:
+      app: mysql-server
+  template:
+    metadata:
+      labels:
+        app: mysql-server
+    spec:
+      containers:
+      - name: mysql-server
+        image: mysql-server:1.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: vBPEPwd
+        ports:
+        - containerPort: 3306
+          name: mysql-server
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-server
+  labels:
+    app: mysql-server
+    module: mysql
+  annotations:
+    ingress.kubernetes.io/service-upstream: "true"
+spec:
+  ports:
+    - name: mysql-port
+      protocol: TCP
+      targetPort: 3306
+      port: 3306
+      # nodePort: 4406
+  selector:
+    app: mysql-server
+  type: NodePort
