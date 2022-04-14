@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: explorer
+spec:
+  selector:
+    matchLabels:
+      app: explorer
+  template:
+    metadata:
+      labels:
+        app: explorer
+    spec:
+      containers:
+      - name: explorer-container
+        image: hyperledger/explorer:latest
+        env:
+        - name: DATABASE_HOST
+          value: vbpe.explorer-db
+        - name: DATABASE_DATABASE
+          value: fabricexplorer
+        - name: DATABASE_PORT
+          value: 30011
+        - name: DATABASE_USERNAME
+          value: postgres
+        - name: DATABASE_PASSWD
+          value: vBPEPwd
+        - name: LOG_LEVEL_APP
+          value: debug
+        - name: LOG_LEVEL_DB
+          value: debug
+        - name: LOG_LEVEL_CONSOLE
+          value: info
+        - name: LOG_CONSOLE_STDOUT
+          value: true
+        - name: DISCOVERY_AS_LOCALHOST
+          value: false
+# volumes:
+#   - ./config.json:/opt/explorer/app/platform/fabric/config.json
+#   - ./connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+#   - ./walletstore:/opt/explorer/wallet
+#   - ./artifacts/crypto-config:/opt/explorer/crypto-config
+#   - ./artifacts/config-explorer:/opt/explorer/app/platform/fabric/config
+#   - ./user/crypto-path:/opt/explorer/crypto-path
+#   - ./user/crypto-store:/tmp/crypto-store
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: explorer
+  labels:
+    app: explorer
+    module: explorer
+  annotations:
+    ingress.kubernetes.io/service-upstream: "true"
+spec:
+  ports:
+    - name: explorer-port
+      protocol: TCP
+      targetPort: 8080
+      port: 8080
+      nodePort: 30010
+  selector:
+    app: explorer
+  type: NodePort

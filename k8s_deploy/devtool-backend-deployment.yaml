@@ -1,11 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: devtool-ui
+  name: devtool-backend
 spec:
   selector:
     matchLabels:
-      app: devtool-ui
-  containers:
-  - name: mysql-server
-    image: mysql-server:1.0
+      app: devtool-backend
+  template:
+    metadata:
+      labels:
+        app: devtool-backend
+    spec:
+      containers:
+      - name: devtool-backend-container
+        image: tramtruong98/vbpe-devtool-backend:v1.0.1
+        imagePullPolicy: IfNotPresent     
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devtool-backend-svc
+  labels:
+    app: devtool-backend
+    module: devtool-backend
+  annotations:
+    ingress.kubernetes.io/service-upstream: "true"
+spec:
+  ports:
+    - name: devtool-backend-port
+      protocol: TCP
+      targetPort: 44080
+      port: 44080
+      nodePort: 30005
+  selector:
+    app: devtool-backend
+  type: NodePort

@@ -1,32 +1,30 @@
-kind: PersistentVolume
 apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: fabric-pv
+  name: vbpe-pv-volume
   labels:
     type: local
     name: fabricfiles
 spec:
+  storageClassName: manual
   capacity:
-    storage: 10Gi
-  volumeMode: Filesystem
+    storage: 2Gi
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    path: /nfs/fabric
-    server: storage.local.parisi.biz
-    readOnly: false
+  hostPath:
+    path: "/mnt/data"
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: fabric-pvc
+  name: vbpe-pvc
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 10Gi
+      storage: 2Gi
   selector:
     matchLabels:
       name: fabricfiles

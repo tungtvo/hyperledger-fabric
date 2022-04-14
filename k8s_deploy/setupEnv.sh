@@ -68,8 +68,6 @@ if [ "$1" = "reset" ] || [ -z "$1" ] ; then
 
     echo "=================================================================="
     echo "Runing Mysql container"
-    # docker rm -f $(docker ps -a | grep devtool-mysql | awk '{print $1}')
-    # docker run -p 4406:3306 -d --restart always --name devtool-mysql -e MYSQL_ROOT_PASSWORD=vBPEPwd mysql/mysql-server:latest
     # https://phoenixnap.com/kb/kubernetes-mysql
     kubectl apply -f mysql-storage.yaml
     # run deployment mysql-server
@@ -84,10 +82,10 @@ if [ "$1" = "reset" ] || [ -z "$1" ] ; then
         if [ ! -z "$isMysql" ] && [ ! -z "$isHealthy" ] && [ -z "$isUnHealthy" ]; then
             echo "Connection ready, start configuration"
 
-            kubectl exec -it mysql-server -- sh -c "mysql -uroot -pvBPEPwd -e \"UPDATE mysql.user SET Host='%' WHERE User='root' AND Host='localhost'\""
-            kubectl exec -it mysql-server -- sh -c "mysql -uroot -pvBPEPwd -e \"FLUSH PRIVILEGES\""
-            kubectl exec -it mysql-server -- sh -c "mysql -uroot -pvBPEPwd -e \"GRANT ALL PRIVILEGES ON * . * TO 'root'@'%'\""
-            kubectl exec -it mysql-server -- sh -c "mysql -uroot -pvBPEPwd -e \"ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'vBPEPwd'\""
+            kubectl exec -it deploy/mysql-server -- sh -c "mysql -uroot -pvBPEPwd -e \"UPDATE mysql.user SET Host='%' WHERE User='root' AND Host='localhost'\""
+            kubectl exec -it deploy/mysql-server -- sh -c "mysql -uroot -pvBPEPwd -e \"FLUSH PRIVILEGES\""
+            kubectl exec -it deploy/mysql-server -- sh -c "mysql -uroot -pvBPEPwd -e \"GRANT ALL PRIVILEGES ON * . * TO 'root'@'%'\""
+            kubectl exec -it deploy/mysql-server -- sh -c "mysql -uroot -pvBPEPwd -e \"ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'vBPEPwd'\""
 
             echo "Configuration finish"
             break
@@ -101,7 +99,6 @@ if [ "$1" = "reset" ] || [ -z "$1" ] ; then
     echo "                      INSTALLING BACKEND SERVER                   "
     # run deployment backend
     kubectl apply -f devtool-backend-deployment.yaml
-    kubectl apply -f devtool-backend-svc.yml
     # run deployment frontend
     kubectl apply -f devtool-ui-deployment.yaml
     sleep 5
@@ -110,7 +107,7 @@ if [ "$1" = "reset" ] || [ -z "$1" ] ; then
 
     echo ""
     echo "=================================================================="
-    echo "Devtool is ready now, You can try it at http://localhost:4500"
+    echo "Devtool is ready now, You can try it at http://localhost:30002"
 
     footer
 fi

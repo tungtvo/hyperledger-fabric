@@ -21,3 +21,14 @@ https://github.com/feitnomore/hyperledger-fabric-kubernetes
     - Install chaincode, Init chaincode
 3. apply Fabric explorer, Fabric explorer db deployment.
 
+
+###
+|       Service | local  | docker| K8S    |
+|   ----------- |  ---   | ---   |   ---  |
+|devtool-ui     | 80     | 4500  | 30002  |
+|mysql          | 3306   | 4406  |30006   |
+|backend        | 44080  |       |  30003 |
+|admin          | 30004  |       |        |
+|explorer       | 8080   | 48080 | 30010  |
+|explorer db    | 5432   | 55432 | 30011  |
+

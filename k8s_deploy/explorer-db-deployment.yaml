@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: explorer-db
+spec:
+  selector:
+    matchLabels:
+      app: explorer-db
+  template:
+    metadata:
+      labels:
+        app: explorer-db
+    spec:
+      containers:
+      - name: explorer-db-container
+        image: hyperledger/explorer-db:latest
+        env:
+        - name: DATABASE_DATABASE
+          value: fabricexplorer
+        - name: DATABASE_USERNAME
+          value: postgres
+        - name: DATABASE_PASSWORD
+          value: vBPEPwd
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: explorer-db
+  labels:
+    app: explorer-db
+    module: explorer-db
+  annotations:
+    ingress.kubernetes.io/service-upstream: "true"
+spec:
+  ports:
+    - name: explorer-db-port
+      protocol: TCP
+      targetPort: 5432
+      port: 5432
+      nodePort: 30011
+  selector:
+    app: explorer-db
+  type: NodePort
